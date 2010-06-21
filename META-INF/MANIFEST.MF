@@ -14,8 +14,5 @@ Require-Bundle: org.eclipse.core.runtime,
  net.enilink.komma.generator
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: .,
- lib/elmo-codegen-1.0-SNAPSHOT.jar,
- lib/elmo-owl-1.0-SNAPSHOT.jar,
- lib/elmo-rdfs-1.0-SNAPSHOT.jar
+Bundle-ClassPath: .
 Import-Package: org.slf4j
