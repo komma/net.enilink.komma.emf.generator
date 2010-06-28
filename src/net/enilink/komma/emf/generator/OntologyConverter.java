@@ -76,11 +76,11 @@ import org.slf4j.LoggerFactory;
 import net.enilink.vocab.owl.Ontology;
 import net.enilink.komma.common.AbstractKommaPlugin;
 import net.enilink.komma.core.IKommaManager;
-import net.enilink.komma.core.KommaModule;
 import net.enilink.komma.core.URI;
 import net.enilink.komma.core.URIImpl;
 import net.enilink.komma.sesame.DecoratingSesameManagerFactory;
 import net.enilink.komma.sesame.ISesameManager;
+import net.enilink.komma.util.KommaUtil;
 
 /**
  * A Facade to CodeGenerator and OwlGenerator classes. This class provides a
@@ -356,7 +356,7 @@ public class OntologyConverter {
 	 */
 	public void createOntology(File rdfOutputFile) throws Exception {
 		DecoratingSesameManagerFactory factory = new DecoratingSesameManagerFactory(
-				new KommaModule(), repository);
+				KommaUtil.getCoreModule(), repository);
 		final ISesameManager manager = factory.createKommaManager();
 		createOntology(manager, rdfOutputFile);
 	}

@@ -76,8 +76,9 @@ public class Ecore2OWLTransformer {
 		ResourceSet resourceSet = new ResourceSetImpl();
 
 		// load file
-		resourceSet.getResource(org.eclipse.emf.common.util.URI
-				.createFileURI(ecoreFilePath), true);
+		resourceSet.getResource(
+				org.eclipse.emf.common.util.URI.createFileURI(ecoreFilePath),
+				true);
 		File inputFile = new File(ecoreFilePath);
 		org.eclipse.emf.common.util.URI absoluteInputURI = org.eclipse.emf.common.util.URI
 				.createFileURI(inputFile.getAbsolutePath());
@@ -177,13 +178,12 @@ public class Ecore2OWLTransformer {
 		}
 
 		// Import Komma Ontology
-		Ontology ontology = (Ontology) manager.find(URIImpl.createURI(nsUri));
+		Ontology ontology = manager.find(URIImpl.createURI(nsUri),
+				Ontology.class);
 
-		IEntity kommaOntology = manager.find(CONCEPTS.NAMESPACE_URI
-				.trimFragment());
-		if (kommaOntology instanceof Ontology) {
-			ontology.getOwlImports().add((Ontology) kommaOntology);
-		}
+		Ontology kommaOntology = manager.find(
+				CONCEPTS.NAMESPACE_URI.trimFragment(), Ontology.class);
+		ontology.getOwlImports().add(kommaOntology);
 
 	}
 
@@ -521,8 +521,8 @@ public class Ecore2OWLTransformer {
 
 	private Class handleMap(String name, EClassifier eClassifier)
 			throws OWLTransformerException {
-		Class owlClass = manager.createNamed(getURI(name, eClassifier
-				.getEPackage()), Class.class);
+		Class owlClass = manager.createNamed(
+				getURI(name, eClassifier.getEPackage()), Class.class);
 
 		DetermineMapClassResult determineMapClassResult = determineMapClass(eClassifier);
 
@@ -536,8 +536,8 @@ public class Ecore2OWLTransformer {
 
 				Restriction keyDataRestriction = manager
 						.create(Restriction.class);
-				keyDataRestriction.setOwlOnProperty((OwlProperty) manager
-						.find(CONCEPTS.PROPERTY_KEYDATA));
+				keyDataRestriction.setOwlOnProperty(manager.find(
+						CONCEPTS.PROPERTY_KEYDATA, OwlProperty.class));
 
 				// QName qn = new
 				// QName(determineMapClassResult.xsdUriKey.getNamespace(),determineMapClassResult.xsdUriKey.getLocalName());
@@ -547,8 +547,8 @@ public class Ecore2OWLTransformer {
 				keyDataRestriction
 						.setOwlAllValuesFrom(determineMapClassResult.keyClass);
 
-				restriction.setOwlOnProperty((OwlProperty) manager
-						.find(CONCEPTS.PROPERTY_ENTRY));
+				restriction.setOwlOnProperty(manager.find(
+						CONCEPTS.PROPERTY_ENTRY, OwlProperty.class));
 				restriction.setOwlAllValuesFrom(keyDataRestriction);
 
 				owlClass.getRdfsSubClassOf().add(restriction);
@@ -560,8 +560,8 @@ public class Ecore2OWLTransformer {
 
 				Restriction keyDataRestriction = manager
 						.create(Restriction.class);
-				keyDataRestriction.setOwlOnProperty((OwlProperty) manager
-						.find(CONCEPTS.PROPERTY_VALUEDATA));
+				keyDataRestriction.setOwlOnProperty(manager.find(
+						CONCEPTS.PROPERTY_VALUEDATA, OwlProperty.class));
 
 				// QName qn = new
 				// QName(determineMapClassResult.xsdUriValue.getNamespace(),determineMapClassResult.xsdUriValue.getLocalName());
@@ -571,8 +571,8 @@ public class Ecore2OWLTransformer {
 				keyDataRestriction
 						.setOwlAllValuesFrom(determineMapClassResult.valueClass);
 
-				restriction.setOwlOnProperty((OwlProperty) manager
-						.find(CONCEPTS.PROPERTY_ENTRY));
+				restriction.setOwlOnProperty(manager.find(
+						CONCEPTS.PROPERTY_ENTRY, OwlProperty.class));
 				restriction.setOwlAllValuesFrom(keyDataRestriction);
 
 				owlClass.getRdfsSubClassOf().add(restriction);
@@ -653,12 +653,8 @@ public class Ecore2OWLTransformer {
 	}
 
 	private Class getMapClass(String mapName) {
-		IEntity mapClass = manager.find(CONCEPTS.NAMESPACE_URI
-				.appendFragment(mapName));
-		if (mapClass instanceof Class) {
-			return (Class) mapClass;
-		}
-		return null;
+		return manager.find(CONCEPTS.NAMESPACE_URI.appendFragment(mapName),
+				Class.class);
 	}
 
 	private URI getURI(ENamedElement elem) {
